@@ -1,0 +1,39 @@
+version: '20.10'
+services:
+  backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports: 
+      - 8001:6000
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    # networks:
+    #   - web
+
+  db:
+    image: mysql:8.0.30
+    restart: always
+    environment:
+      MYSQL_DATABASE: microservice_flask
+      MYSQL_ROOT_PASSWORD: passkey
+      SERVICE_TAG: dev
+      SERVICE_NAME: root
+    volumes:
+      - .dbdata:/var/lib/mysql
+    ports:
+      - 3319:3306
+
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+
+# networks:
+#   web :
+#     external: True
+
+
